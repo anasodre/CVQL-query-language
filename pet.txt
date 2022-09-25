@@ -1,0 +1,6 @@
+Lily	Dog	F	6
+Nina	Dog	F	1
+Vera	Fish	F	1
+Bela	Cat	F	2
+Ted	Bear	M	3
+Theo	Cat	M	1

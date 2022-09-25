@@ -1,0 +1,4 @@
+subqueryList SELECT c.Name as State , SUM( c.COVID_19_Deaths ) as Total , SUM( c.COVID_19_Deaths ) /s.Pop * 100 as Porcentual FROM covid c , states s WHERE c.Name = s.Name AND c.Sex <> "All" AND c.Age_group <> "All ages" AND c.Name <> "United States" GROUP BY c.Name , s.Pop 
+attrList Percentual 
+plotList State , Percentual 
+plotType Bars 
