@@ -1,0 +1,827 @@
+Terminais sem uso na gramática
+
+    OTHER
+    SEMICOLON
+    GREATER
+    LESS
+    EQUAL
+    SOFT
+    MUST
+    CANNOT
+    LINK
+    IN
+
+
+Gramática
+
+    0 $accept: prog $end
+
+    1 prog: statement
+
+    2 statement: CLUSTER attributes FROM data
+    3          | CLUSTER attributes FROM data VISUALIZE columns AS visOption
+    4          | CLUSTER attributes FROM data VISUALIZE AS visOption WITH inputation
+
+    5 attributes: ASTERISK
+    6           | attr
+
+    7 attr: attributename
+
+    8 $@1: ε
+
+    9 attr: attributename COMMA $@1 attr
+
+   10 attributename: TERM
+
+   11 data: P_LEFT seqStr P_RIGHT
+
+   12 seqStr: part
+
+   13 $@2: ε
+
+   14 seqStr: part COMMA $@2 seqStr
+
+   15 $@3: ε
+
+   16 $@4: ε
+
+   17 seqStr: part P_LEFT $@3 seqStr P_RIGHT $@4 seqStr
+
+   18 part: identifier part
+   19     | TERM
+
+   20 $@5: ε
+
+   21 part: TERM $@5 part
+   22     | TERM OPERATOR TERM
+
+   23 $@6: ε
+
+   24 part: TERM OPERATOR TERM $@6 part
+
+   25 $@7: ε
+
+   26 part: TERM OPERATOR OPERATOR TERM $@7 part
+   27     | TERM OPERATOR NUM
+
+   28 $@8: ε
+
+   29 part: ASTERISK $@8 part
+
+   30 identifier: SELECT
+   31           | FROM
+   32           | WITH
+   33           | WHERE
+   34           | AND
+   35           | GROUP BY
+
+   36 visOption: TERM
+
+   37 inputation: TERM
+
+   38 columns: TERM
+
+   39 $@9: ε
+
+   40 columns: TERM COMMA $@9 columns
+
+
+Terminais, com as regras onde eles aparecem
+
+    $end (0) 0
+    error (256)
+    TERM <name> (258) 10 19 21 22 24 26 27 36 37 38 40
+    NUM <number> (259) 27
+    OTHER (260)
+    SEMICOLON (261)
+    COMMA <name> (262) 9 14 40
+    CLUSTER (263) 2 3 4
+    FROM <name> (264) 2 3 4 31
+    WITH <name> (265) 4 32
+    SELECT <name> (266) 30
+    WHERE <name> (267) 33
+    AND <name> (268) 34
+    GROUP <name> (269) 35
+    P_LEFT <name> (270) 11 17
+    P_RIGHT <name> (271) 11 17
+    GREATER (272)
+    LESS (273)
+    EQUAL (274)
+    SOFT (275)
+    MUST (276)
+    CANNOT (277)
+    LINK (278)
+    BY <name> (279) 35
+    IN (280)
+    ASTERISK <name> (281) 5 29
+    OPERATOR <name> (282) 22 24 26 27
+    VISUALIZE (283) 3 4
+    AS (284) 3 4
+
+
+Não terminais com as regras onde eles aparecem
+
+    $accept (30)
+        à esquerda: 0
+    prog (31)
+        à esquerda: 1
+        à direita: 0
+    statement (32)
+        à esquerda: 2 3 4
+        à direita: 1
+    attributes (33)
+        à esquerda: 5 6
+        à direita: 2 3 4
+    attr (34)
+        à esquerda: 7 9
+        à direita: 6 9
+    $@1 (35)
+        à esquerda: 8
+        à direita: 9
+    attributename (36)
+        à esquerda: 10
+        à direita: 7 9
+    data (37)
+        à esquerda: 11
+        à direita: 2 3 4
+    seqStr (38)
+        à esquerda: 12 14 17
+        à direita: 11 14 17
+    $@2 (39)
+        à esquerda: 13
+        à direita: 14
+    $@3 (40)
+        à esquerda: 15
+        à direita: 17
+    $@4 (41)
+        à esquerda: 16
+        à direita: 17
+    part (42)
+        à esquerda: 18 19 21 22 24 26 27 29
+        à direita: 12 14 17 18 21 24 26 29
+    $@5 (43)
+        à esquerda: 20
+        à direita: 21
+    $@6 (44)
+        à esquerda: 23
+        à direita: 24
+    $@7 (45)
+        à esquerda: 25
+        à direita: 26
+    $@8 (46)
+        à esquerda: 28
+        à direita: 29
+    identifier (47)
+        à esquerda: 30 31 32 33 34 35
+        à direita: 18
+    visOption (48)
+        à esquerda: 36
+        à direita: 3 4
+    inputation (49)
+        à esquerda: 37
+        à direita: 4
+    columns (50)
+        à esquerda: 38 40
+        à direita: 3 40
+    $@9 (51)
+        à esquerda: 39
+        à direita: 40
+
+
+Estado 0
+
+    0 $accept: • prog $end
+
+    CLUSTER  deslocar, e ir ao estado 1
+
+    prog       ir ao estado 2
+    statement  ir ao estado 3
+
+
+Estado 1
+
+    2 statement: CLUSTER • attributes FROM data
+    3          | CLUSTER • attributes FROM data VISUALIZE columns AS visOption
+    4          | CLUSTER • attributes FROM data VISUALIZE AS visOption WITH inputation
+
+    TERM      deslocar, e ir ao estado 4
+    ASTERISK  deslocar, e ir ao estado 5
+
+    attributes     ir ao estado 6
+    attr           ir ao estado 7
+    attributename  ir ao estado 8
+
+
+Estado 2
+
+    0 $accept: prog • $end
+
+    $end  deslocar, e ir ao estado 9
+
+
+Estado 3
+
+    1 prog: statement •
+
+    $padrão  reduzir usando a regra 1 (prog)
+
+
+Estado 4
+
+   10 attributename: TERM •
+
+    $padrão  reduzir usando a regra 10 (attributename)
+
+
+Estado 5
+
+    5 attributes: ASTERISK •
+
+    $padrão  reduzir usando a regra 5 (attributes)
+
+
+Estado 6
+
+    2 statement: CLUSTER attributes • FROM data
+    3          | CLUSTER attributes • FROM data VISUALIZE columns AS visOption
+    4          | CLUSTER attributes • FROM data VISUALIZE AS visOption WITH inputation
+
+    FROM  deslocar, e ir ao estado 10
+
+
+Estado 7
+
+    6 attributes: attr •
+
+    $padrão  reduzir usando a regra 6 (attributes)
+
+
+Estado 8
+
+    7 attr: attributename •
+    9     | attributename • COMMA $@1 attr
+
+    COMMA  deslocar, e ir ao estado 11
+
+    $padrão  reduzir usando a regra 7 (attr)
+
+
+Estado 9
+
+    0 $accept: prog $end •
+
+    $padrão  aceitar
+
+
+Estado 10
+
+    2 statement: CLUSTER attributes FROM • data
+    3          | CLUSTER attributes FROM • data VISUALIZE columns AS visOption
+    4          | CLUSTER attributes FROM • data VISUALIZE AS visOption WITH inputation
+
+    P_LEFT  deslocar, e ir ao estado 12
+
+    data  ir ao estado 13
+
+
+Estado 11
+
+    9 attr: attributename COMMA • $@1 attr
+
+    $padrão  reduzir usando a regra 8 ($@1)
+
+    $@1  ir ao estado 14
+
+
+Estado 12
+
+   11 data: P_LEFT • seqStr P_RIGHT
+
+    TERM      deslocar, e ir ao estado 15
+    FROM      deslocar, e ir ao estado 16
+    WITH      deslocar, e ir ao estado 17
+    SELECT    deslocar, e ir ao estado 18
+    WHERE     deslocar, e ir ao estado 19
+    AND       deslocar, e ir ao estado 20
+    GROUP     deslocar, e ir ao estado 21
+    ASTERISK  deslocar, e ir ao estado 22
+
+    seqStr      ir ao estado 23
+    part        ir ao estado 24
+    identifier  ir ao estado 25
+
+
+Estado 13
+
+    2 statement: CLUSTER attributes FROM data •
+    3          | CLUSTER attributes FROM data • VISUALIZE columns AS visOption
+    4          | CLUSTER attributes FROM data • VISUALIZE AS visOption WITH inputation
+
+    VISUALIZE  deslocar, e ir ao estado 26
+
+    $padrão  reduzir usando a regra 2 (statement)
+
+
+Estado 14
+
+    9 attr: attributename COMMA $@1 • attr
+
+    TERM  deslocar, e ir ao estado 4
+
+    attr           ir ao estado 27
+    attributename  ir ao estado 8
+
+
+Estado 15
+
+   19 part: TERM •
+   21     | TERM • $@5 part
+   22     | TERM • OPERATOR TERM
+   24     | TERM • OPERATOR TERM $@6 part
+   26     | TERM • OPERATOR OPERATOR TERM $@7 part
+   27     | TERM • OPERATOR NUM
+
+    OPERATOR  deslocar, e ir ao estado 28
+
+    COMMA    reduzir usando a regra 19 (part)
+    P_LEFT   reduzir usando a regra 19 (part)
+    P_RIGHT  reduzir usando a regra 19 (part)
+    $padrão  reduzir usando a regra 20 ($@5)
+
+    $@5  ir ao estado 29
+
+
+Estado 16
+
+   31 identifier: FROM •
+
+    $padrão  reduzir usando a regra 31 (identifier)
+
+
+Estado 17
+
+   32 identifier: WITH •
+
+    $padrão  reduzir usando a regra 32 (identifier)
+
+
+Estado 18
+
+   30 identifier: SELECT •
+
+    $padrão  reduzir usando a regra 30 (identifier)
+
+
+Estado 19
+
+   33 identifier: WHERE •
+
+    $padrão  reduzir usando a regra 33 (identifier)
+
+
+Estado 20
+
+   34 identifier: AND •
+
+    $padrão  reduzir usando a regra 34 (identifier)
+
+
+Estado 21
+
+   35 identifier: GROUP • BY
+
+    BY  deslocar, e ir ao estado 30
+
+
+Estado 22
+
+   29 part: ASTERISK • $@8 part
+
+    $padrão  reduzir usando a regra 28 ($@8)
+
+    $@8  ir ao estado 31
+
+
+Estado 23
+
+   11 data: P_LEFT seqStr • P_RIGHT
+
+    P_RIGHT  deslocar, e ir ao estado 32
+
+
+Estado 24
+
+   12 seqStr: part •
+   14       | part • COMMA $@2 seqStr
+   17       | part • P_LEFT $@3 seqStr P_RIGHT $@4 seqStr
+
+    COMMA   deslocar, e ir ao estado 33
+    P_LEFT  deslocar, e ir ao estado 34
+
+    $padrão  reduzir usando a regra 12 (seqStr)
+
+
+Estado 25
+
+   18 part: identifier • part
+
+    TERM      deslocar, e ir ao estado 15
+    FROM      deslocar, e ir ao estado 16
+    WITH      deslocar, e ir ao estado 17
+    SELECT    deslocar, e ir ao estado 18
+    WHERE     deslocar, e ir ao estado 19
+    AND       deslocar, e ir ao estado 20
+    GROUP     deslocar, e ir ao estado 21
+    ASTERISK  deslocar, e ir ao estado 22
+
+    part        ir ao estado 35
+    identifier  ir ao estado 25
+
+
+Estado 26
+
+    3 statement: CLUSTER attributes FROM data VISUALIZE • columns AS visOption
+    4          | CLUSTER attributes FROM data VISUALIZE • AS visOption WITH inputation
+
+    TERM  deslocar, e ir ao estado 36
+    AS    deslocar, e ir ao estado 37
+
+    columns  ir ao estado 38
+
+
+Estado 27
+
+    9 attr: attributename COMMA $@1 attr •
+
+    $padrão  reduzir usando a regra 9 (attr)
+
+
+Estado 28
+
+   22 part: TERM OPERATOR • TERM
+   24     | TERM OPERATOR • TERM $@6 part
+   26     | TERM OPERATOR • OPERATOR TERM $@7 part
+   27     | TERM OPERATOR • NUM
+
+    TERM      deslocar, e ir ao estado 39
+    NUM       deslocar, e ir ao estado 40
+    OPERATOR  deslocar, e ir ao estado 41
+
+
+Estado 29
+
+   21 part: TERM $@5 • part
+
+    TERM      deslocar, e ir ao estado 15
+    FROM      deslocar, e ir ao estado 16
+    WITH      deslocar, e ir ao estado 17
+    SELECT    deslocar, e ir ao estado 18
+    WHERE     deslocar, e ir ao estado 19
+    AND       deslocar, e ir ao estado 20
+    GROUP     deslocar, e ir ao estado 21
+    ASTERISK  deslocar, e ir ao estado 22
+
+    part        ir ao estado 42
+    identifier  ir ao estado 25
+
+
+Estado 30
+
+   35 identifier: GROUP BY •
+
+    $padrão  reduzir usando a regra 35 (identifier)
+
+
+Estado 31
+
+   29 part: ASTERISK $@8 • part
+
+    TERM      deslocar, e ir ao estado 15
+    FROM      deslocar, e ir ao estado 16
+    WITH      deslocar, e ir ao estado 17
+    SELECT    deslocar, e ir ao estado 18
+    WHERE     deslocar, e ir ao estado 19
+    AND       deslocar, e ir ao estado 20
+    GROUP     deslocar, e ir ao estado 21
+    ASTERISK  deslocar, e ir ao estado 22
+
+    part        ir ao estado 43
+    identifier  ir ao estado 25
+
+
+Estado 32
+
+   11 data: P_LEFT seqStr P_RIGHT •
+
+    $padrão  reduzir usando a regra 11 (data)
+
+
+Estado 33
+
+   14 seqStr: part COMMA • $@2 seqStr
+
+    $padrão  reduzir usando a regra 13 ($@2)
+
+    $@2  ir ao estado 44
+
+
+Estado 34
+
+   17 seqStr: part P_LEFT • $@3 seqStr P_RIGHT $@4 seqStr
+
+    $padrão  reduzir usando a regra 15 ($@3)
+
+    $@3  ir ao estado 45
+
+
+Estado 35
+
+   18 part: identifier part •
+
+    $padrão  reduzir usando a regra 18 (part)
+
+
+Estado 36
+
+   38 columns: TERM •
+   40        | TERM • COMMA $@9 columns
+
+    COMMA  deslocar, e ir ao estado 46
+
+    $padrão  reduzir usando a regra 38 (columns)
+
+
+Estado 37
+
+    4 statement: CLUSTER attributes FROM data VISUALIZE AS • visOption WITH inputation
+
+    TERM  deslocar, e ir ao estado 47
+
+    visOption  ir ao estado 48
+
+
+Estado 38
+
+    3 statement: CLUSTER attributes FROM data VISUALIZE columns • AS visOption
+
+    AS  deslocar, e ir ao estado 49
+
+
+Estado 39
+
+   22 part: TERM OPERATOR TERM •
+   24     | TERM OPERATOR TERM • $@6 part
+
+    COMMA    reduzir usando a regra 22 (part)
+    P_LEFT   reduzir usando a regra 22 (part)
+    P_RIGHT  reduzir usando a regra 22 (part)
+    $padrão  reduzir usando a regra 23 ($@6)
+
+    $@6  ir ao estado 50
+
+
+Estado 40
+
+   27 part: TERM OPERATOR NUM •
+
+    $padrão  reduzir usando a regra 27 (part)
+
+
+Estado 41
+
+   26 part: TERM OPERATOR OPERATOR • TERM $@7 part
+
+    TERM  deslocar, e ir ao estado 51
+
+
+Estado 42
+
+   21 part: TERM $@5 part •
+
+    $padrão  reduzir usando a regra 21 (part)
+
+
+Estado 43
+
+   29 part: ASTERISK $@8 part •
+
+    $padrão  reduzir usando a regra 29 (part)
+
+
+Estado 44
+
+   14 seqStr: part COMMA $@2 • seqStr
+
+    TERM      deslocar, e ir ao estado 15
+    FROM      deslocar, e ir ao estado 16
+    WITH      deslocar, e ir ao estado 17
+    SELECT    deslocar, e ir ao estado 18
+    WHERE     deslocar, e ir ao estado 19
+    AND       deslocar, e ir ao estado 20
+    GROUP     deslocar, e ir ao estado 21
+    ASTERISK  deslocar, e ir ao estado 22
+
+    seqStr      ir ao estado 52
+    part        ir ao estado 24
+    identifier  ir ao estado 25
+
+
+Estado 45
+
+   17 seqStr: part P_LEFT $@3 • seqStr P_RIGHT $@4 seqStr
+
+    TERM      deslocar, e ir ao estado 15
+    FROM      deslocar, e ir ao estado 16
+    WITH      deslocar, e ir ao estado 17
+    SELECT    deslocar, e ir ao estado 18
+    WHERE     deslocar, e ir ao estado 19
+    AND       deslocar, e ir ao estado 20
+    GROUP     deslocar, e ir ao estado 21
+    ASTERISK  deslocar, e ir ao estado 22
+
+    seqStr      ir ao estado 53
+    part        ir ao estado 24
+    identifier  ir ao estado 25
+
+
+Estado 46
+
+   40 columns: TERM COMMA • $@9 columns
+
+    $padrão  reduzir usando a regra 39 ($@9)
+
+    $@9  ir ao estado 54
+
+
+Estado 47
+
+   36 visOption: TERM •
+
+    $padrão  reduzir usando a regra 36 (visOption)
+
+
+Estado 48
+
+    4 statement: CLUSTER attributes FROM data VISUALIZE AS visOption • WITH inputation
+
+    WITH  deslocar, e ir ao estado 55
+
+
+Estado 49
+
+    3 statement: CLUSTER attributes FROM data VISUALIZE columns AS • visOption
+
+    TERM  deslocar, e ir ao estado 47
+
+    visOption  ir ao estado 56
+
+
+Estado 50
+
+   24 part: TERM OPERATOR TERM $@6 • part
+
+    TERM      deslocar, e ir ao estado 15
+    FROM      deslocar, e ir ao estado 16
+    WITH      deslocar, e ir ao estado 17
+    SELECT    deslocar, e ir ao estado 18
+    WHERE     deslocar, e ir ao estado 19
+    AND       deslocar, e ir ao estado 20
+    GROUP     deslocar, e ir ao estado 21
+    ASTERISK  deslocar, e ir ao estado 22
+
+    part        ir ao estado 57
+    identifier  ir ao estado 25
+
+
+Estado 51
+
+   26 part: TERM OPERATOR OPERATOR TERM • $@7 part
+
+    $padrão  reduzir usando a regra 25 ($@7)
+
+    $@7  ir ao estado 58
+
+
+Estado 52
+
+   14 seqStr: part COMMA $@2 seqStr •
+
+    $padrão  reduzir usando a regra 14 (seqStr)
+
+
+Estado 53
+
+   17 seqStr: part P_LEFT $@3 seqStr • P_RIGHT $@4 seqStr
+
+    P_RIGHT  deslocar, e ir ao estado 59
+
+
+Estado 54
+
+   40 columns: TERM COMMA $@9 • columns
+
+    TERM  deslocar, e ir ao estado 36
+
+    columns  ir ao estado 60
+
+
+Estado 55
+
+    4 statement: CLUSTER attributes FROM data VISUALIZE AS visOption WITH • inputation
+
+    TERM  deslocar, e ir ao estado 61
+
+    inputation  ir ao estado 62
+
+
+Estado 56
+
+    3 statement: CLUSTER attributes FROM data VISUALIZE columns AS visOption •
+
+    $padrão  reduzir usando a regra 3 (statement)
+
+
+Estado 57
+
+   24 part: TERM OPERATOR TERM $@6 part •
+
+    $padrão  reduzir usando a regra 24 (part)
+
+
+Estado 58
+
+   26 part: TERM OPERATOR OPERATOR TERM $@7 • part
+
+    TERM      deslocar, e ir ao estado 15
+    FROM      deslocar, e ir ao estado 16
+    WITH      deslocar, e ir ao estado 17
+    SELECT    deslocar, e ir ao estado 18
+    WHERE     deslocar, e ir ao estado 19
+    AND       deslocar, e ir ao estado 20
+    GROUP     deslocar, e ir ao estado 21
+    ASTERISK  deslocar, e ir ao estado 22
+
+    part        ir ao estado 63
+    identifier  ir ao estado 25
+
+
+Estado 59
+
+   17 seqStr: part P_LEFT $@3 seqStr P_RIGHT • $@4 seqStr
+
+    $padrão  reduzir usando a regra 16 ($@4)
+
+    $@4  ir ao estado 64
+
+
+Estado 60
+
+   40 columns: TERM COMMA $@9 columns •
+
+    $padrão  reduzir usando a regra 40 (columns)
+
+
+Estado 61
+
+   37 inputation: TERM •
+
+    $padrão  reduzir usando a regra 37 (inputation)
+
+
+Estado 62
+
+    4 statement: CLUSTER attributes FROM data VISUALIZE AS visOption WITH inputation •
+
+    $padrão  reduzir usando a regra 4 (statement)
+
+
+Estado 63
+
+   26 part: TERM OPERATOR OPERATOR TERM $@7 part •
+
+    $padrão  reduzir usando a regra 26 (part)
+
+
+Estado 64
+
+   17 seqStr: part P_LEFT $@3 seqStr P_RIGHT $@4 • seqStr
+
+    TERM      deslocar, e ir ao estado 15
+    FROM      deslocar, e ir ao estado 16
+    WITH      deslocar, e ir ao estado 17
+    SELECT    deslocar, e ir ao estado 18
+    WHERE     deslocar, e ir ao estado 19
+    AND       deslocar, e ir ao estado 20
+    GROUP     deslocar, e ir ao estado 21
+    ASTERISK  deslocar, e ir ao estado 22
+
+    seqStr      ir ao estado 65
+    part        ir ao estado 24
+    identifier  ir ao estado 25
+
+
+Estado 65
+
+   17 seqStr: part P_LEFT $@3 seqStr P_RIGHT $@4 seqStr •
+
+    $padrão  reduzir usando a regra 17 (seqStr)
